@@ -23,6 +23,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # ✅ DEBUG STEP — check if secrets are coming through
+      - name: Debug - Check env vars are set
+        run: |
+          echo "CLIENT_ID is set: ${{ env.ARM_CLIENT_ID != '' }}"
+          echo "CLIENT_SECRET is set: ${{ env.ARM_CLIENT_SECRET != '' }}"
+          echo "SUBSCRIPTION_ID is set: ${{ env.ARM_SUBSCRIPTION_ID != '' }}"
+          echo "TENANT_ID is set: ${{ env.ARM_TENANT_ID != '' }}"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
