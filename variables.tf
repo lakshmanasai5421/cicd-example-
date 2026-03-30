@@ -18,15 +18,3 @@ variable "tenant_id" {
   description = "Azure Tenant ID"
   type        = string
 }
-```
-
----
-
-## Your repo structure should look like this:
-```
-your-repo/
-├── main.tf          ✅ already exists
-├── variables.tf     ❌ missing — create this now
-└── .github/
-    └── workflows/
-        └── terraform.yml
