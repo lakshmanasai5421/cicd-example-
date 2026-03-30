@@ -10,7 +10,7 @@ on:
 
 jobs:
   terraform:
-    name: Terraform Plan & Apply
+    name: Terraform Apply
     runs-on: ubuntu-latest
 
     steps:
@@ -27,14 +27,19 @@ jobs:
         with:
           terraform_version: 1.6.0
 
+      - name: Set Terraform Variables
+        run: |
+          echo "TF_VAR_client_id=${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}" >> $GITHUB_ENV
+          echo "TF_VAR_client_secret=${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}" >> $GITHUB_ENV
+          echo "TF_VAR_subscription_id=${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}" >> $GITHUB_ENV
+          echo "TF_VAR_tenant_id=${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}" >> $GITHUB_ENV
+
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Validate
         run: terraform validate
 
-
-
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve
